@@ -1,48 +1,49 @@
-
-import React from "react";
-
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { addNewBrand } from "../../API/api";
 
 function AddBrand(props) {
-  
-    const [brandName,setBrandName] = useState('');
+  const [brandName, setBrandName] = useState('');
+  const [brandImage, setBrandImage] = useState(null);
 
-    const handleNewBrand = async ()=>{
-        const payload = {name:brandName};
-        const response = await addNewBrand(payload);
-        if(response.success){
-            props.onBrandAdded();
-            props.onHide();
-        }
-        else{
-            alert('failed to add brand')
-        }
+  const handleNewBrand = async () => {
+    const formData = new FormData();
+    formData.append("name", brandName);
+    formData.append("image", brandImage); // key must match multer
+
+    try {
+      const response = await addNewBrand(formData, true);
+      if (response.success) {
+        props.onBrandAdded();
+        props.onHide();
+      } else {
+        alert(response.message || "Failed to add brand");
+      }
+    } catch (err) {
+      console.error("Error uploading brand:", err);
+      alert("Upload failed");
     }
-
-
+  };
 
   return (
-    <Modal
-      {...props}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
+    <Modal {...props} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          Add New Brand
-        </Modal.Title>
+        <Modal.Title>Add New Brand</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <input
           type="text"
-          className="form-control"
+          className="form-control mb-2"
           placeholder="Enter brand name"
           value={brandName}
           onChange={(e) => setBrandName(e.target.value)}
+        />
+        <input
+          type="file"
+          className="form-control"
+          accept="image/*"
+          onChange={(e) => setBrandImage(e.target.files[0])}
         />
       </Modal.Body>
       <Modal.Footer>

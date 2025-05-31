@@ -1,13 +1,9 @@
 import axios from 'axios';
 
-// Base URL
 export const BASE_URL = 'http://localhost:7000/api';
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 export const getToken = () => localStorage.getItem("token");
@@ -17,9 +13,13 @@ export const getUser = () => {
   return user ? JSON.parse(user) : null;
 };
 
-export const apiRequest = async (endpoint, data = {}, method = "get") => {
+export const apiRequest = async (endpoint, data = {}, method = "get", isMultipart = false) => {
   const token = getToken();
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+  if (!isMultipart) {
+    headers["Content-Type"] = "application/json";
+  }
 
   try {
     const response = await axiosInstance.request({
@@ -35,7 +35,10 @@ export const apiRequest = async (endpoint, data = {}, method = "get") => {
   }
 };
 
-// Auth APIs
+
+//Auth APIS
+
+
 export const loginAPI = async (payload) => {
   const data = await apiRequest('/user/login', payload, "post");
   if (data?.token) {
@@ -52,7 +55,10 @@ export const getUserInfo = async () => {
   return await apiRequest("/user/getUserInfo", {}, "get");
 };
 
-// Category APIs
+
+//  Category APIS
+
+
 export const addNewCategory = async (payload) => {
   return await apiRequest("/category/create", payload, "post");
 };
@@ -65,18 +71,20 @@ export const deleteCategory = async (ID) => {
   return await apiRequest(`/category/delete/${ID}`, {}, "delete");
 };
 
-export const updateCategory = async (ID,payload)=>{
-  return await apiRequest(`category/update/${ID}`,payload,"put")
-}
+export const updateCategory = async (ID, payload) => {
+  return await apiRequest(`/category/update/${ID}`, payload, "put");
+};
 
 
-// Brand APIs
+// Brand APIS
+
+
 export const getAllBrands = async () => {
   return await apiRequest('/brand/getAllBrand', {}, "get");
 };
 
-export const addNewBrand = async (payload) => {
-  return await apiRequest("/brand/create", payload, "post");
+export const addNewBrand = async (payload, isMultipart = false) => {
+  return await apiRequest("/brand/create", payload, "post", isMultipart);
 };
 
 export const deleteBrand = async (ID) => {
@@ -87,7 +95,10 @@ export const updateBrand = async (ID, payload) => {
   return await apiRequest(`/brand/updateBrand/${ID}`, payload, "put");
 };
 
-// Product APIs
+
+//  Product APIS
+
+
 export const getAllProducts = async () => {
   return await apiRequest('/product/getAllProducts', {}, "get");
 };

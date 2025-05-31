@@ -77,7 +77,7 @@ const Category = () => {
             <tr>
               <th>#</th>
               <th>Category Name</th>
-              <th>Image</th>
+              {/* <th>Image</th> */}
               <th>Action</th>
             </tr>
           </thead>
@@ -87,7 +87,7 @@ const Category = () => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{category.name}</td>
-                  <td><img src={category.imageUrl || ""} alt={category.name} width="50" /></td>
+                  {/* <td><img src={category.imageUrl || ""} alt={category.name} width="50" /></td> */}
                   <td>
                     <button className="btn btn-sm btn-warning me-2"
                     onClick={()=>{

@@ -14,6 +14,7 @@ function AddProduct(props) {
   const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -36,7 +37,7 @@ function AddProduct(props) {
       alert("Please select a valid category and brand.");
       return;
     }
-
+    
     const payload = {
       name: productName,
       description: productDescription,

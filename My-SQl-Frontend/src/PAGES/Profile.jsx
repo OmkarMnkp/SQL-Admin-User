@@ -35,7 +35,7 @@ const Profile = () => {
                 width: "700px",
                 maxWidth: "90%",
             }}>
-                {/* Left: Profile Image */}
+                
                 <div style={{
                     flex: 1,
                     backgroundColor: "#eaeaea",

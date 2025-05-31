@@ -91,7 +91,9 @@ const Brand = () => {
                   <tr key={index}>
                     <td>{index + 1}</td>
                     <td>{brand.name}</td>
-                    <td><img src={brand.imageUrl} alt={brand.name} width="50" /></td>
+                    {/* <td><img src={brand.imageUrl} alt={brand.name} width="50" /></td> */}
+                    <img src={brand.image} alt={brand.name} width="130" height="100" />
+
 
                     <td>
                       <button className="btn btn-sm btn-warning me-2"
